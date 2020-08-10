@@ -1,0 +1,6 @@
+{
+    "baseUrl": "https://gradebook-api.vivifyideas.com",
+    "env": {
+        "apiUrl": "https://gradebook-api.vivifyideas.com/api/"
+    }
+}

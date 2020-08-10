@@ -1,0 +1,14 @@
+{
+  "name": "zavrsniradqakurs",
+  "version": "1.0.0",
+  "description": "\"zavrsnirad\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "rad"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^4.12.1"
+  }
+}
