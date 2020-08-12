@@ -37,7 +37,7 @@ describe('Register module', () => {
       cy.get('[type=submit]').should('be.visible')
     })
 
-//završiti
+//uraditi 
 
     it('GB-3: Register – valid data (positive test)', () => { 
         cy.get('.nav-link').contains('Register').click()
@@ -69,7 +69,7 @@ describe('Register module', () => {
 
 
       //promeniti broj ovog testa
-      it('GB-X: Register – valid data professor realy exist', () => {
+      it('GB-X: Register – valid data user/professor realy exist', () => {
         cy.get('.nav-link').contains('Register').click()
         cy.get('#firstName').type(firstName)
         cy.get('#lastName').type(lastName)
@@ -86,4 +86,148 @@ describe('Register module', () => {
         cy.get('table > tbody:last-child > tr > td').should('contain', firstName)
       })
 
+      it('GB-11: Register page – First name input field: required', () => {
+        cy.get('.nav-link').contains('Register').click()
+        cy.get('#firstName').then(($input) => {
+          expect($input[0].validationMessage).to.eq('Please fill out this field.')
+        })
+        cy.get('#lastName').type(lastName)
+        cy.get('#password').type(password)
+        cy.get('#passwordConfirmation').type(password)
+        cy.get('#email').type(email)
+        cy.get('[type="checkbox"]').check()
+        cy.wait(1000)
+        cy.get('[type=submit]').click() 
+      })
+
+      it('GB-11: Register page – Last name input field: required', () => {
+        cy.get('.nav-link').contains('Register').click()
+        cy.get('#firstName').type(firstName)
+        cy.get('#lastName').then(($input) => {
+          expect($input[0].validationMessage).to.eq('Please fill out this field.')
+        })
+        cy.get('#password').type(password)
+        cy.get('#passwordConfirmation').type(password)
+        cy.get('#email').type(email)
+        cy.get('[type="checkbox"]').check()
+        cy.wait(1000)
+        cy.get('[type=submit]').click() 
+      })
+
+      it('GB-13: Register page – Email field: required', () => {
+        cy.get('.nav-link').contains('Register').click()
+        cy.get('#firstName').type(firstName)
+        cy.get('#lastName').type(lastName)
+        cy.get('#password').type(password)
+        cy.get('#passwordConfirmation').type(password)
+        cy.get('#email').then(($input) => {
+          expect($input[0].validationMessage).to.eq('Please fill out this field.')
+        cy.get('[type="checkbox"]').check()
+        cy.wait(1000)
+        cy.get('[type=submit]').click() 
+      })
     })
+
+    it('GB-14: Register page – Email field format invalid', () => {
+      cy.get('.nav-link').contains('Register').click()
+      cy.get('#firstName').type(firstName)
+      cy.get('#lastName').type(lastName)
+      cy.get('#password').type(password)
+      cy.get('#passwordConfirmation').type(password)
+      cy.get('#email').type('invalidemail.invalid.com')
+      cy.get('[type="checkbox"]').check()
+      cy.wait(1000)
+      cy.get('[type=submit]').click() 
+      cy.wait(1000) 
+      cy.get('#email').then(($input) => {
+        expect($input[0].validationMessage).to.eq('Please include an \'@\' in the email address. \'invalidemail.invalid.com\' is missing an \'@\'.')
+    })
+    })
+
+    it('GB-15: Register page – Password input field empty', () => {
+      cy.get('.nav-link').contains('Register').click()
+      cy.get('#firstName').type(firstName)
+      cy.get('#lastName').type(lastName)
+      cy.get('#password')
+      cy.get('#passwordConfirmation').type(password)
+      cy.get('#email').type(email)
+      cy.get('[type="checkbox"]').check()
+      cy.wait(1000)
+      cy.get('[type=submit]').click() 
+      cy.wait(1000)
+      cy.on('window:alert', (message) => {
+        expect(message).to.equal('Your passwords doesn`t match, try again, please')
+      })
+    })
+
+    it('GB-16: Register page – Password Confirm input field empty', () => {
+      cy.get('.nav-link').contains('Register').click()
+      cy.get('#firstName').type(firstName)
+      cy.get('#lastName').type(lastName)
+      cy.get('#password').type(password)
+      cy.get('#passwordConfirmation')
+      cy.get('#email').type(email)
+      cy.get('[type="checkbox"]').check()
+      cy.wait(1000)
+      cy.get('[type=submit]').click() 
+      cy.wait(1000)
+      cy.on('window:alert', (message) => {
+        expect(message).to.equal('Your passwords doesn`t match, try again, please')
+      })
+    })
+
+    it('GB-17: Register page – Password do not match the requested format', () => {
+      cy.get('.nav-link').contains('Register').click()
+      cy.get('#firstName').type(firstName)
+      cy.get('#lastName').type(lastName)
+      cy.get('#password').type('1234aa')
+      cy.get('#passwordConfirmation').type('1234aa')
+      cy.get('#email').type(email)
+      cy.get('[type="checkbox"]').check()
+      cy.wait(1000)
+      cy.get('[type=submit]').click() 
+      cy.wait(1000)
+
+      cy.get('#password').then(($input) => {
+        expect($input[0].validationMessage).to.eq('Please match the requested format.')
+    })
+    })
+
+
+    //  Uraditi i u Postmanu i u FE   - registracija uspeva, a ne bi trebala
+    it('GB-18: Register page – User can not register twice with the same email', () => {
+      cy.get('.nav-link').contains('Register').click()
+      cy.get('#firstName').type(firstName)
+      cy.get('#lastName').type(lastName)
+      cy.get('#password').type('1234aa')
+      cy.get('#passwordConfirmation').type('1234aa')
+      cy.get('#email').type(email)
+      cy.get('[type="checkbox"]').check()
+      cy.wait(1000)
+      cy.get('[type=submit]').click() 
+      cy.wait(1000)
+
+      cy.get('#password').then(($input) => {
+        expect($input[0].validationMessage).to.eq('Please match the requested format.')
+    })
+    })
+
+
+    //  Uraditi i u Postmanu i u FE   - registracija uspeva, a ne bi trebala
+    it('GB-19: Register page – Terms and conditions unchecked', () => {
+      cy.get('.nav-link').contains('Register').click()
+      cy.get('#firstName').type(firstName)
+      cy.get('#lastName').type(lastName)
+      cy.get('#password').type('1234aa')
+      cy.get('#passwordConfirmation').type('1234aa')
+      cy.get('#email').type(email)
+      cy.get('[type="checkbox"]').check()
+      cy.wait(1000)
+      cy.get('[type=submit]').click() 
+      cy.wait(1000)
+
+      cy.get('#password').then(($input) => {
+        expect($input[0].validationMessage).to.eq('Please match the requested format.')
+    })
+    })
+  })
