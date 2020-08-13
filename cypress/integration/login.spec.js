@@ -38,9 +38,11 @@ describe('Login module', () => {
         // authPage.loginButton.click()
         authPage.login(EMAIL.EXISTING, EMAIL.PASSWORD)
         cy.wait('@diaries')
+
         cy.wait(1000)
-        cy.get('.nav-link').contains('Sign out').click()
-        
+
+        cy.get('.nav-link').contains('Sign out').click() 
+
       })
 
 
@@ -56,10 +58,11 @@ describe('Login module', () => {
         cy.get('[type=submit]').contains('Login').should('be.visible')
       })
 
-      
 
+      
       it('GB-18 : Login page invalid data - invalid password', () => {
-        cy.get('[type=text]').clear()
+      cy.get('[type=text]').clear()
+
         cy.get('[type=text]').type(EMAIL.EXISTING)
         cy.get('[type=password]').clear()
         cy.get('[type=password]').type('jelenak1988')

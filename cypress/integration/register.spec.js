@@ -68,8 +68,8 @@ describe('Register module', () => {
       })
 
 
-      //promeniti broj ovog testa
-      it('GB-X: Register – valid data user/professor realy exist', () => {
+      //
+      it.only('GB-4A: Register with valid data - user/professor realy exist', () => {
         cy.get('.nav-link').contains('Register').click()
         cy.get('#firstName').type(firstName)
         cy.get('#lastName').type(lastName)
@@ -84,6 +84,7 @@ describe('Register module', () => {
         cy.wait(1000)
         cy.get('a').contains('All Professors').click()
         cy.get('table > tbody:last-child > tr > td').should('contain', firstName)
+        cy.get('.nav-link').contains('Register').should('not.be.visible')
       })
 
       it('GB-11: Register page – First name input field: required', () => {
@@ -194,8 +195,8 @@ describe('Register module', () => {
     })
 
 
-    //  Uraditi i u Postmanu i u FE   - registracija uspeva, a ne bi trebala
-    it('GB-18: Register page – User can not register twice with the same email', () => {
+    //  Uraditi preko FE   - registracija uspeva, a ne bi trebala (uradjeno u Postmanu)
+    it('GB-13: Register page – User can not register twice with the same email', () => {
       cy.get('.nav-link').contains('Register').click()
       cy.get('#firstName').type(firstName)
       cy.get('#lastName').type(lastName)
@@ -213,8 +214,8 @@ describe('Register module', () => {
     })
 
 
-    //  Uraditi i u Postmanu i u FE   - registracija uspeva, a ne bi trebala
-    it('GB-19: Register page – Terms and conditions unchecked', () => {
+    //  Uraditi preko FE   - registracija uspeva, a ne bi trebala 
+    it('GB-14: Register page – Terms and conditions unchecked', () => {
       cy.get('.nav-link').contains('Register').click()
       cy.get('#firstName').type(firstName)
       cy.get('#lastName').type(lastName)
