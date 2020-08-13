@@ -1,3 +1,6 @@
+import {EMAIL} from '../fixtures/constants'
+import {registerPage} from '../page_object/register.page'
+
 const faker = require('faker');
 
 let email = faker.internet.email();
@@ -37,39 +40,24 @@ describe('Register module', () => {
       cy.get('[type=submit]').should('be.visible')
     })
 
-//uraditi 
+// 
 
     it('GB-3: Register – valid data (positive test)', () => { 
         cy.get('.nav-link').contains('Register').click()
-        cy.get('#firstName').type(firstName)
-        cy.get('#lastName').type(lastName)
-        cy.get('#password').type(password)
-        cy.get('#passwordConfirmation').type(password)
-        cy.get('#email').type(email)
-        cy.get('[type="checkbox"]').check()
-        cy.wait(1000)
-        cy.get('[type=submit]').click() 
+        registerPage.register(firstName, lastName, password, email)
+        // cy.get('#firstName').type(firstName)
+        // cy.get('#lastName').type(lastName)
+        // cy.get('#password').type(password)
+        // cy.get('#passwordConfirmation').type(password)
+        // cy.get('#email').type(email)
+        // cy.get('[type="checkbox"]').check()
+        // cy.wait(1000)
+        // cy.get('[type=submit]').click() 
         cy.wait(1000)
       })
 
 
-      it('GB-4 : Register page - visibility as logged in user', () => {
-        cy.get('.nav-link').contains('Register').click()
-        cy.get('#firstName').type(firstName)
-        cy.get('#lastName').type(lastName)
-        cy.get('#password').type(password)
-        cy.get('#passwordConfirmation').type(password)
-        cy.get('#email').type(email)
-        cy.get('[type="checkbox"]').check()
-        cy.wait(1000)
-        cy.get('[type=submit]').click() 
-        cy.wait(1000)
-        cy.get('.nav-link').contains('Register').should('not.be.visible')
-      })
-
-
-      //
-      it.only('GB-4A: Register with valid data - user/professor realy exist', () => {
+      it('GB-4: Register with valid data - user/professor realy exist', () => {
         cy.get('.nav-link').contains('Register').click()
         cy.get('#firstName').type(firstName)
         cy.get('#lastName').type(lastName)
@@ -194,41 +182,33 @@ describe('Register module', () => {
     })
     })
 
-
-    //  Uraditi preko FE   - registracija uspeva, a ne bi trebala (uradjeno u Postmanu)
-    it('GB-13: Register page – User can not register twice with the same email', () => {
+    it('GB-13: Register page – User can be registered twice with the same email, redirect on homepage is impossible', () => {
       cy.get('.nav-link').contains('Register').click()
       cy.get('#firstName').type(firstName)
       cy.get('#lastName').type(lastName)
-      cy.get('#password').type('1234aa')
-      cy.get('#passwordConfirmation').type('1234aa')
-      cy.get('#email').type(email)
+      cy.get('#password').type(password)
+      cy.get('#passwordConfirmation').type(password)
+      cy.get('#email').type(EMAIL.EXISTING)
       cy.get('[type="checkbox"]').check()
       cy.wait(1000)
       cy.get('[type=submit]').click() 
       cy.wait(1000)
-
-      cy.get('#password').then(($input) => {
-        expect($input[0].validationMessage).to.eq('Please match the requested format.')
-    })
+      cy.get('a').contains('Sign in').should('be.visible')
+      cy.get('a').contains('Register').should('be.visible')
     })
 
 
-    //  Uraditi preko FE   - registracija uspeva, a ne bi trebala 
-    it('GB-14: Register page – Terms and conditions unchecked', () => {
+    it('GB-14: Register page – User can be registered even if Terms and conditions is unchecked', () => {
       cy.get('.nav-link').contains('Register').click()
       cy.get('#firstName').type(firstName)
       cy.get('#lastName').type(lastName)
-      cy.get('#password').type('1234aa')
-      cy.get('#passwordConfirmation').type('1234aa')
+      cy.get('#password').type(password)
+      cy.get('#passwordConfirmation').type(password)
       cy.get('#email').type(email)
-      cy.get('[type="checkbox"]').check()
+      cy.get('[type="checkbox"]').uncheck()
       cy.wait(1000)
       cy.get('[type=submit]').click() 
       cy.wait(1000)
-
-      cy.get('#password').then(($input) => {
-        expect($input[0].validationMessage).to.eq('Please match the requested format.')
+      cy.get('.nav-link').contains('Sign out').should('be.visible')
     })
     })
-  })
