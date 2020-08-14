@@ -1,8 +1,7 @@
 import {EMAIL} from '../fixtures/constants'
-
 import {authPage} from '../page_object/login.page'
 import {createProfessor} from '../page_object/create_professors.page'
-//import {par} from '../fixtures/constants'
+
 
 const faker = require('faker')
 let firstName = faker.name.firstName();
@@ -11,9 +10,13 @@ let password = faker.internet.password();
 let email = faker.internet.email();
 let text = faker.random.words();
 let gradebookTitle = faker.random.words();
+let gradebookTitle2 = faker.random.words();
 let imeProf = faker.random.words();
 let prezimeProf = faker.random.words();
-let image1 = "https://www.newenglishreview.org/files/100/Image/Paperchase.jpg"
+let image1 = "https://www.newenglishreview.org/files/100/Image/Paperchase.jpg";
+//let naslovDnevnika = faker.random.words();
+//let profa = faker.random.words();
+//let dodajSliku = faker.image.people();
 
 
 describe('Home page module', () => {
@@ -49,31 +52,55 @@ describe('Home page module', () => {
         cy.get('table > tbody > tr > td > a').should('contain', 'Pozorištance puž')
     })
 
-    it.only('GB-  : Create gradebook', () => { 
+    it('GB-  : New professor gets new gradebook', () => { 
         cy.get('#navbardrop').click()
         cy.wait(2000)
         cy.get('a').contains('Create Professor').click()
-        // cy.route(Cypress.env('apiUrl') + 'diaries?page=1').as('diaries')
-        // cy.wait('@diaries')
-        //cy.wait(2000)
-        createProfessor.kreirajProfesora(imeProf, prezimeProf)
-        cy.get('.btn').contains('Add images').click()
-        cy.get('.form-control').type(image1)
-        cy.get('[type="submit"]').click()
+        createProfessor.kreirajProfesora(imeProf, prezimeProf, image1)
+        cy.get('a').contains('Professors').click()
         cy.wait(1000);
+        cy.get('.dropdown-menu').contains('All Professors').click()
+        cy.get('table > tbody:last-child > tr').should('contain', imeProf, prezimeProf, 'Professor is available')
+        cy.wait(2000)
         cy.get('.nav-link').contains('Create Gradebook').click();
-        cy.get('h3').contains('Create Gradebook Page').should('be.visible');
-        cy.get('label').contains('Professor').should('be.visible');
-        cy.get('label').contains('Gradebook title').should('be.visible');
         cy.wait(1000);
-        cy.get('[type="text"]').click().type(gradebookTitle);
-        cy.wait(1000);
-
-//ZAVRSITI VALIDIRANJE DA JE PROF KREIRAN I KREIRATI DNEVNIK SA TIM PROFESOROM ODABRATI GA SA POSLEDNJEG MESTA LISTE
-
-        cy.get('[name="professor"]').select([imeProf]);
+        cy.get('[type="text"]').type(gradebookTitle);
+        cy.get('#professor').select(imeProf + ' ' +  prezimeProf)
         cy.wait(1000);
         cy.get('.btn').contains('Submit').click();
+        cy.route(Cypress.env('apiUrl') + 'diaries?page=1').as('diaries')
+        cy.wait('@diaries')
+        cy.get('.form-control').type(gradebookTitle)
+        cy.get('.btn').contains('Search').click()
+        cy.wait(2000)
+        cy.get('table > tbody > tr > td > a').should('contain', gradebookTitle)
+        
+    })
+    
+    //novi profesor uzima novi dnevnik i vise nije dostupan
+    it.only('GB-  : Create gradebook', () => { 
+        
+        cy.get('#navbardrop').click()
+        cy.wait(2000)
+
+        cy.get('a').contains('Create Professor').click()
+        createProfessor.kreirajProfesora(imeProf, prezimeProf, image1)
+        cy.wait(1000);
+        //napravljen prvi gradebook sa prof
+        cy.get('.nav-link').contains('Create Gradebook').click()
+        cy.wait(1000);
+        cy.get('[type="text"]').type(gradebookTitle);
+        cy.get('#professor').select(imeProf + ' ' +  prezimeProf)
+        cy.wait(1000);
+        cy.get('.btn').contains('Submit').click();
+        //pravim drugi dnevnik i pokusavam da mu dodam istog profesora, ali nije dostupan
+        cy.wait(1000);
+        cy.get('.nav-link').contains('Create Gradebook').click();
+        cy.wait(1000);
+        cy.get('[type="text"]').type(gradebookTitle2);
+        cy.get('#professor').find(imeProf + ' ' +  prezimeProf)
+                            .should('not.be.visible')
+       
     })
 
     })

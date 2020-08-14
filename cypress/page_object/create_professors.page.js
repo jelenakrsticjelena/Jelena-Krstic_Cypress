@@ -8,19 +8,22 @@ export default class CreateProfessor {
         return cy.get('#lastName')
     }
 
-    kreirajProfesora(imeProf, prezimeProf) {
-        this.firstName.type(imeProf)
-        this.lastName.type(prezimeProf)
+    get addImageBtn() {
+        return cy.get('.btn').contains('Add images')
     }
 
-    // get addImage() {
-    //     return cy.get('.btn').contains('Add images').click()
-    //     cy.get(['autofocus="autofocus"']).type(urlRandom)
-    // }
-
-    // get submitButton() {
-    //     return cy.get('[type="submit"]').click()
-    // }
-
-}
+    get addImage() {
+        return cy.get('.form-control')
+    }
+    
+    get submitButton() {
+        return cy.get('[type="submit"]')
+    }
+    kreirajProfesora(imeProf, prezimeProf, image1) {
+        this.firstName.type(imeProf)
+        this.lastName.type(prezimeProf)
+        this.addImageBtn.click()
+        this.addImage.type(image1)
+        this.submitButton.click()
+    }}
 export const createProfessor = new CreateProfessor()
