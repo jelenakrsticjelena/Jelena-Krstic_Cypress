@@ -16,14 +16,15 @@ describe('Layout page as a user - module', () => {
       cy.visit('/')
     });
   
-    beforeEach(() => {
-      cy.visit('/')
-      cy.get('.nav-link').contains('Register').click()
-      cy.server()
-    });
+    // beforeEach(() => {
+    //   cy.visit('/')
+    //   //cy.get('.nav-link').contains('Register').click()
+    //   cy.server()
+    // });
 
-    it('GB-  : Layout of homepage as register user', () => { 
-        //cy.get('.nav-link').contains('Register').click()
+
+    it('GB-21: same as a GB-4: Layout of homepage as registered user – Gradebooks Page', () => { 
+        cy.get('.nav-link').contains('Register').click()
         registerPage.register(firstName, lastName, password, email)
         cy.wait(1000)
   
@@ -44,7 +45,7 @@ describe('Layout page as a user - module', () => {
         cy.get('.nav-link').contains('Sign out').click()
     })
 
-    it('GB-  : Layout of homepage as loged user', () => { 
+    it('GB-20: same as a GB:19 - Layout of homepage as logged user – Gradebooks Page', () => { 
         cy.get('.nav-link').contains('Sign in').click()
         authPage.login(EMAIL.EXISTING, EMAIL.PASSWORD)
         cy.wait(1000)
@@ -65,42 +66,64 @@ describe('Layout page as a user - module', () => {
         cy.get('.nav-link').contains('Sign out').click()
     })
 
-
-    //zavrsiti
-    it.only('GB-  : Layout of My Gradebook page', () => { 
+    it('GB-22: Layout of My Gradebook page', () => { 
       cy.get('.nav-link').contains('Sign in').click()
       authPage.login(EMAIL.EXISTING, EMAIL.PASSWORD)
       cy.wait(1000)
       cy.get('.nav-link').contains('My Gradebook').click()
+      cy.get('.nav-link').contains('Gradebooks').should('be.visible')
+      cy.get('.nav-link').contains('My Gradebook').should('be.visible') 
+      cy.get('.nav-link').contains('Create Gradebook').should('be.visible')  
+      cy.get('.nav-link').contains('Professors').should('be.visible')
+      cy.get('.nav-link').contains('Sign out').should('be.visible')
       cy.get('h3').contains('My Gradebook Page').should('be.visible');
       cy.get('.table').should('be.visible');
-      cy.get('table > thead > tr').should('contain','Gradebook', 'Professor', 'Student')
-      cy.get('.btn').contains('Delete Gradebook').should('be.visible')
+      cy.get('table > thead > tr').should('contain','Add Student')
+      cy.get('table > thead > tr').should('contain','Gradebook')
+      cy.get('table > thead > tr').should('contain','Professor')
+      cy.get('table > thead > tr').should('contain','Student')
+      cy.get('table > tbody > tr').eq(0).should('contain','Delete Gradebook')
       cy.get('.btn').contains('Edit Gradebook').should('be.visible')
       cy.get('h4').contains('Comments').should('be.visible');
       cy.get('textarea').should('have.attr', 'placeholder','Writte your comment')
       cy.get('.btn').contains('Submit Comment').should('be.visible')  
-      cy.get('.nav-link').contains('Sign out').should('be.visible')
   })
 
-  //uraditi
-  it.only('GB-  : Layout of Add student page', () => { 
+  it('GB-23: Layout of Add student page', () => { 
     cy.get('.nav-link').contains('Sign in').click()
     authPage.login(EMAIL.EXISTING, EMAIL.PASSWORD)
     cy.wait(1000)
     cy.get('.nav-link').contains('My Gradebook').click()
-    cy.get('h3').contains('My Gradebook Page').should('be.visible');
-    cy.get('.table').should('be.visible');
-    cy.get('table > thead > tr').should('contain','Gradebook', 'Professor', 'Student')
-    cy.get('.btn').contains('Delete Gradebook').should('be.visible')
-    cy.get('.btn').contains('Edit Gradebook').should('be.visible')
-    cy.get('h4').contains('Comments').should('be.visible');
-    cy.get('textarea').should('have.attr', 'placeholder','Writte your comment')
-    cy.get('.btn').contains('Submit Comment').should('be.visible')  
-    cy.get('.nav-link').contains('Sign out').should('be.visible')
+    cy.get('table > thead > tr').should('contain','Add Student').click()
+    cy.get('.btn').contains('Add Student').click()
+    cy.get('label').contains('First Name').should('be.visible')
+    cy.get('#firstName').should('be.visible')
+    cy.get('label').contains('Last Name').should('be.visible')
+    cy.get('#lastName').should('be.visible')
+    cy.get('.btn').contains('Add images').should('be.visible')  
+    cy.get('.btn').contains('Submit').should('be.visible') 
+
 })
 
-    it('GB-  : Layout of Create gradebook page', () => { 
+it.only('GB-24: Layout of Edit Gradebook Page', () => { 
+  cy.get('.nav-link').contains('Sign in').click()
+  authPage.login(EMAIL.EXISTING, EMAIL.PASSWORD)
+  cy.wait(1000)
+  cy.get('.nav-link').contains('My Gradebook').click()
+  cy.wait(1000)
+  cy.get('.btn').contains('Edit Gradebook').click()
+  cy.wait(1000)
+  cy.get('h3').contains('Create Gradebook Page').should('be.visible');
+  cy.get('label').contains('Gradebook title').should('be.visible')
+  cy.get('#title').should('be.visible')
+  cy.get('label').contains('Professor').should('be.visible')
+  cy.get('#professor').should('be.visible')
+  cy.wait(1000)
+  cy.get('.btn').contains('Submit').should('be.visible') 
+
+})
+
+    it('GB-25 : Layout of Create gradebook page', () => { 
       cy.get('.nav-link').contains('Sign in').click()
       authPage.login(EMAIL.EXISTING, EMAIL.PASSWORD)
       cy.wait(1000)
@@ -114,7 +137,7 @@ describe('Layout page as a user - module', () => {
       cy.get('.nav-link').contains('Sign out').should('be.visible')
   })
 
-  it('GB-  : Layout of All professors page', () => { 
+  it('GB-26: Layout of All professors page', () => { 
     cy.get('.nav-link').contains('Sign in').click()
     authPage.login(EMAIL.EXISTING, EMAIL.PASSWORD)
     cy.wait(1000)
@@ -130,7 +153,7 @@ describe('Layout page as a user - module', () => {
     cy.get('.nav-link').contains('Sign out').should('be.visible')
 })
 
-it('GB-  : Layout of Create professor page', () => { 
+it('GB-27: Layout of Create professor page', () => { 
   cy.get('.nav-link').contains('Sign in').click()
   authPage.login(EMAIL.EXISTING, EMAIL.PASSWORD)
   cy.wait(1000)
@@ -144,7 +167,7 @@ it('GB-  : Layout of Create professor page', () => {
   cy.get('label').contains('Last Name').should('be.visible')
   cy.get('#lastName').should('be.visible')
   cy.get('.btn').contains('Add images').click()
-  cy.get('[type="submit"]').click()
+  cy.get('[type="submit"]').should('be.visible')
   cy.get('.nav-link').contains('Sign out').should('be.visible')
 })
 

@@ -1,7 +1,7 @@
 import {EMAIL} from '../fixtures/constants'
 import {authPage} from '../page_object/login.page'
 import {createProfessor} from '../page_object/create_professors.page'
-
+import {createGradebook} from '../page_object/create_gradebook.page'
 
 const faker = require('faker')
 let firstName = faker.name.firstName();
@@ -46,6 +46,7 @@ describe('Home page module', () => {
     it('GB-  : Homepage - filter - found gradebook', () => { 
         cy.route(Cypress.env('apiUrl') + 'diaries?page=1').as('diaries')
         cy.wait('@diaries')
+
         cy.get('.form-control').type('Pozorištance puž')
         cy.get('.btn').contains('Search').click()
         cy.wait(2000)
@@ -78,7 +79,7 @@ describe('Home page module', () => {
     })
     
     //novi profesor uzima novi dnevnik i vise nije dostupan
-    it.only('GB-  : Create gradebook', () => { 
+    it('GB-  : Create gradebook', () => { 
         
         cy.get('#navbardrop').click()
         cy.wait(2000)
@@ -102,5 +103,23 @@ describe('Home page module', () => {
                             .should('not.be.visible')
        
     })
+//proba za pageobject create gradebook
+    it.only('GB-  : Create gradebook', () => { 
+        
+        cy.get('#navbardrop').click()
+        cy.wait(2000)
+
+        cy.get('a').contains('Create Professor').click()
+        createProfessor.kreirajProfesora(imeProf, prezimeProf, image1)
+        cy.wait(1000);
+        //napravljen prvi gradebook sa prof
+        cy.get('.nav-link').contains('Create Gradebook').click()
+        cy.wait(1000);
+
+        createGradebook.kreirajDnevnik(gradebookTitle, imeProf + ' ' + prezimeProf)
+        cy.wait(1000);
+        
+    })
+
 
     })

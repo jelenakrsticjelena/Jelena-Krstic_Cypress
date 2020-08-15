@@ -22,7 +22,7 @@ describe('Register module', () => {
     cy.server()
   });
 
-    it('GB-2 : GB-2 : Register page layout ', () => {
+    it('GB-2 : Register page layout ', () => {
       cy.get('.nav-link').contains('Sign in').click()  
       cy.get('.nav-link').contains('Register').click()
       cy.get('label').contains('First Name').should('be.visible')
@@ -56,26 +56,52 @@ describe('Register module', () => {
         cy.wait(1000)
       })
 
-
-      it('GB-4: Register with valid data - user/professor realy exist', () => {
-        cy.get('.nav-link').contains('Register').click()
-        cy.get('#firstName').type(firstName)
-        cy.get('#lastName').type(lastName)
-        cy.get('#password').type(password)
-        cy.get('#passwordConfirmation').type(password)
-        cy.get('#email').type(email)
-        cy.get('[type="checkbox"]').check()
+      it('GB-4: Layout of homepage as register user', () => { 
+        //cy.get('.nav-link').contains('Register').click()
+        registerPage.register(firstName, lastName, password, email)
         cy.wait(1000)
-        cy.get('[type=submit]').click() 
+  
+        cy.get('.nav-link').contains('Gradebooks').should('be.visible')
+        cy.get('.nav-link').contains('My Gradebook').should('be.visible') 
+        cy.get('.nav-link').contains('Create Gradebook').should('be.visible')  
+        cy.get('.nav-link').contains('Professors').should('be.visible')
+        cy.get('.nav-link').contains('Sign out').should('be.visible')
+        cy.get('h3').contains('All Gradebooks Page').should('be.visible')
+        cy.get('label').contains('Gradebook Filter').should('be.visible')
+        cy.get('.form-control').should('be.visible')
+        cy.get('.btn').contains('Search').should('be.visible')
+        cy.get('.table').should('be.visible')
+        cy.get('tr').eq(0).contains('Gradebook').should('be.visible')
+        cy.get('tr').eq(0).contains('Professor').should('be.visible')
+        cy.get('tr').eq(0).contains('Created at').should('be.visible')
+        cy.get('.btn').contains('Next').should('be.visible')
+        cy.get('.nav-link').contains('Register').should('not.be.visible')
+        cy.get('.nav-link').contains('Sign out').click()
+    })
+      it('GB-5: Register with valid data - user/professor realy exist', () => {
+        cy.get('.nav-link').contains('Register').click()
+        registerPage.register(firstName, lastName, password, email)
         cy.wait(2000)
         cy.get('#navbardrop').click()
         cy.wait(1000)
         cy.get('a').contains('All Professors').click()
         cy.get('table > tbody:last-child > tr > td').should('contain', firstName)
-        cy.get('.nav-link').contains('Register').should('not.be.visible')
+
       })
 
-      it('GB-11: Register page – First name input field: required', () => {
+      it.only('GB-5A: Filter option for checking if professor really exist', () => { 
+        registerPage.register(firstName, lastName, password, email)
+        cy.route(Cypress.env('apiUrl') + 'diaries?page=1').as('diaries')
+        cy.wait('@diaries')
+        cy.get('#navbardrop').contains('Professors').click()
+        cy.wait(1000)
+        cy.get('.dropdown-item').contains('All Professors').click()
+        cy.wait(1000)
+        cy.get('[type=text]').type(firstName)
+        cy.get('table > tbody > tr > td').should('contain', firstName)
+    })
+
+      it('GB-6: Register page – First name input field: required', () => {
         cy.get('.nav-link').contains('Register').click()
         cy.get('#firstName').then(($input) => {
           expect($input[0].validationMessage).to.eq('Please fill out this field.')
@@ -89,7 +115,7 @@ describe('Register module', () => {
         cy.get('[type=submit]').click() 
       })
 
-      it('GB-11: Register page – Last name input field: required', () => {
+      it('GB-7: Register page – Last name input field: required', () => {
         cy.get('.nav-link').contains('Register').click()
         cy.get('#firstName').type(firstName)
         cy.get('#lastName').then(($input) => {
@@ -103,7 +129,7 @@ describe('Register module', () => {
         cy.get('[type=submit]').click() 
       })
 
-      it('GB-13: Register page – Email field: required', () => {
+      it('GB-8: Register page – Email field: required', () => {
         cy.get('.nav-link').contains('Register').click()
         cy.get('#firstName').type(firstName)
         cy.get('#lastName').type(lastName)
@@ -117,7 +143,7 @@ describe('Register module', () => {
       })
     })
 
-    it('GB-14: Register page – Email field format invalid', () => {
+    it('GB-9: Register page – Email field format invalid', () => {
       cy.get('.nav-link').contains('Register').click()
       cy.get('#firstName').type(firstName)
       cy.get('#lastName').type(lastName)
@@ -133,7 +159,7 @@ describe('Register module', () => {
     })
     })
 
-    it('GB-15: Register page – Password input field empty', () => {
+    it('GB-10: Register page – Password input field empty', () => {
       cy.get('.nav-link').contains('Register').click()
       cy.get('#firstName').type(firstName)
       cy.get('#lastName').type(lastName)
@@ -149,7 +175,7 @@ describe('Register module', () => {
       })
     })
 
-    it('GB-16: Register page – Password Confirm input field empty', () => {
+    it('GB-11: Register page – Password Confirm input field empty', () => {
       cy.get('.nav-link').contains('Register').click()
       cy.get('#firstName').type(firstName)
       cy.get('#lastName').type(lastName)
@@ -165,7 +191,7 @@ describe('Register module', () => {
       })
     })
 
-    it('GB-17: Register page – Password do not match the requested format', () => {
+    it('GB-12: Register page – Password do not match the requested format', () => {
       cy.get('.nav-link').contains('Register').click()
       cy.get('#firstName').type(firstName)
       cy.get('#lastName').type(lastName)
