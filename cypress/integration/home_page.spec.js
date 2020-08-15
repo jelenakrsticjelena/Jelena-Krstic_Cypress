@@ -54,7 +54,7 @@ describe('Home page module', () => {
     })
 
     //proba filtriranja sa page objest create gradebook
-    it.only('GB-  : Homepage - filter - found gradebook', () => { 
+    it('GB-  : Homepage - filter - found gradebook', () => { 
         cy.get('#navbardrop').click()
         cy.wait(2000)
         cy.get('a').contains('Create Professor').click()
@@ -122,7 +122,7 @@ describe('Home page module', () => {
                             .should('not.be.visible')
        
     })
-//proba za page object create gradebook
+//proba za page object create gradebook   DODATI DA POSTOJE TRI SLIKE PROFESORA, JEDNA SE BRISE, A 2 SE KOJE SE ROTIRAJU 16.08.2020.
     it('GB-  : Create gradebook', () => { 
         
         cy.get('#navbardrop').click()
