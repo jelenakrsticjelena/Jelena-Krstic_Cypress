@@ -30,7 +30,7 @@ Cypress.Commands.add('loginBe', (mejl, pasvord) =>{
     })
     cy.request({
       method: 'POST',
-      url: Cypress.env('apiUrl') + 'auth/login',
+      url: Cypress.env('apiUrl') + 'login',
       form: true,
       followRedirect: true,
       body: {
@@ -39,11 +39,32 @@ Cypress.Commands.add('loginBe', (mejl, pasvord) =>{
       }
     }).
     then((resp)=>{
-       expect(resp.body).to.have.property('access_token')
-       localStorage.setItem('token', resp.body.access_token)
-    //    cy.visit('/')
+       expect(resp.body).to.have.property('token')
+       localStorage.setItem('user', JSON.stringify(resp.body.user))
+       localStorage.setItem('loginToken', resp.body.token)
+       cy.visit('/')
     }) 
   })
+
+  Cypress.Commands.add('registerBe', (name, last, mejl, pasvord) =>{
+
+    cy.request({
+      method: 'POST',
+      url: Cypress.env('apiUrl') + 'register',
+      form: true,
+      followRedirect: true,
+      body: {
+        firstName: name,
+        lastName: last,
+        email: mejl,
+        password: pasvord,
+      }
+    }).
+    then((resp)=>{
+       cy.visit('/')
+    }) 
+  })
+
 
 //   Cypress.Commands.add('deleteBe', ()=>{
 //     cy.request({

@@ -42,7 +42,7 @@ describe('Home page module', () => {
         cy.get('.container > p').contains('There is no more gradebooks in base, try again').should('be.visible')
     })
 
-    //ovde ubaciti da kreira novu galeriju za slucaj da neko obrise postojecu
+    //ovde ubaciti da kreira novi dnevnik za slucaj da neko obrise postojeci
     it('GB-  : Homepage - filter - found gradebook', () => { 
         cy.route(Cypress.env('apiUrl') + 'diaries?page=1').as('diaries')
         cy.wait('@diaries')
@@ -51,6 +51,25 @@ describe('Home page module', () => {
         cy.get('.btn').contains('Search').click()
         cy.wait(2000)
         cy.get('table > tbody > tr > td > a').should('contain', 'Pozorištance puž')
+    })
+
+    //proba filtriranja sa page objest create gradebook
+    it.only('GB-  : Homepage - filter - found gradebook', () => { 
+        cy.get('#navbardrop').click()
+        cy.wait(2000)
+        cy.get('a').contains('Create Professor').click()
+        createProfessor.kreirajProfesora(imeProf, prezimeProf, image1)
+        cy.get('a').contains('Gradebooks').click()
+        cy.route(Cypress.env('apiUrl') + 'diaries?page=1').as('diaries')
+        cy.get('.nav-link').contains('Create Gradebook').click()
+        cy.wait(1000);
+        createGradebook.kreirajDnevnik(gradebookTitle, imeProf + ' ' + prezimeProf)
+        cy.wait(1000);
+        cy.get('.form-control').type(gradebookTitle)
+        cy.wait(1000);
+        cy.get('button').contains('Search').click()
+        cy.wait(2000)
+        cy.get('table > tbody > tr > td > a').should('contain', gradebookTitle)
     })
 
     it('GB-  : New professor gets new gradebook', () => { 
@@ -79,7 +98,7 @@ describe('Home page module', () => {
     })
     
     //novi profesor uzima novi dnevnik i vise nije dostupan
-    it('GB-  : Create gradebook', () => { 
+    it('GB-  : New professor gets new gradebook and frofessor is not available for getting a another gradebook', () => { 
         
         cy.get('#navbardrop').click()
         cy.wait(2000)
@@ -103,19 +122,16 @@ describe('Home page module', () => {
                             .should('not.be.visible')
        
     })
-//proba za pageobject create gradebook
-    it.only('GB-  : Create gradebook', () => { 
+//proba za page object create gradebook
+    it('GB-  : Create gradebook', () => { 
         
         cy.get('#navbardrop').click()
         cy.wait(2000)
-
         cy.get('a').contains('Create Professor').click()
         createProfessor.kreirajProfesora(imeProf, prezimeProf, image1)
         cy.wait(1000);
-        //napravljen prvi gradebook sa prof
         cy.get('.nav-link').contains('Create Gradebook').click()
         cy.wait(1000);
-
         createGradebook.kreirajDnevnik(gradebookTitle, imeProf + ' ' + prezimeProf)
         cy.wait(1000);
         

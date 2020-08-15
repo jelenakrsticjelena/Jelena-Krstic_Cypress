@@ -18,7 +18,6 @@ export default class CreateGradebook {
     kreirajDnevnik(naslovDnevnika, odabraniProfesor) {
         this.gradebookTitle.type(naslovDnevnika)
         this.professor.select(odabraniProfesor)
-        //this.professor.select(cy.get('#professor').select(imeProf + ' ' +  prezimeProf))
         this.loginButton.click()
     }
 }
