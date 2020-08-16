@@ -89,7 +89,7 @@ describe('Register module', () => {
 
       })
 
-      it.only('GB-5A: Filter option for checking if professor really exist', () => { 
+      it('GB-5A: Filter option for checking if professor really exist', () => { 
         registerPage.register(firstName, lastName, password, email)
         cy.route(Cypress.env('apiUrl') + 'diaries?page=1').as('diaries')
         cy.wait('@diaries')

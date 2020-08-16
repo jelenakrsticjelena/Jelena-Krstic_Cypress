@@ -16,11 +16,11 @@ describe('Layout page as a user - module', () => {
       cy.visit('/')
     });
   
-    // beforeEach(() => {
-    //   cy.visit('/')
-    //   //cy.get('.nav-link').contains('Register').click()
-    //   cy.server()
-    // });
+    beforeEach(() => {
+      cy.visit('/')
+      //cy.get('.nav-link').contains('Register').click()
+      cy.server()
+    });
 
 
     it('GB-21: same as a GB-4: Layout of homepage as registered user – Gradebooks Page', () => { 
@@ -105,7 +105,7 @@ describe('Layout page as a user - module', () => {
 
 })
 
-it.only('GB-24: Layout of Edit Gradebook Page', () => { 
+it('GB-24: Layout of Edit Gradebook Page', () => { 
   cy.get('.nav-link').contains('Sign in').click()
   authPage.login(EMAIL.EXISTING, EMAIL.PASSWORD)
   cy.wait(1000)
@@ -145,7 +145,7 @@ it.only('GB-24: Layout of Edit Gradebook Page', () => {
     cy.get('#navbardrop').click()
     cy.get('a').contains('All Professors').click()
     cy.wait(1000)
-    cy.get('.h3').contains('All Professors Page').should('be.visible')
+    //cy.get('h3').contains('All Professors Page').should('be.visible')
     cy.wait(2000)
     cy.get('label').contains('Professors filter').should('be.visible')
     cy.get('.form-control').should('be.visible')

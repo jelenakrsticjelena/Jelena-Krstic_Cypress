@@ -16,9 +16,6 @@ let prezimeProf = faker.random.words();
 let image1 = "https://www.newenglishreview.org/files/100/Image/Paperchase.jpg";
 let image2 = "https://img.freepik.com/free-photo/old-professor-showing-classroom_23-2148201060.jpg?size=626&ext=jpg"
 let image3 = "https://images.ctfassets.net/p0qf7j048i0q/3C15803B7BE94A5696501B2AE89C30CF/9168c33e6bacbcaafca0a3163a32fcd9/491706503.jpg"
-//let naslovDnevnika = faker.random.words();
-//let profa = faker.random.words();
-//let dodajSliku = faker.image.people();
 
 
 describe('Home page module', () => {
@@ -36,7 +33,7 @@ describe('Home page module', () => {
     cy.server()
     });
   
-    it('GB-  : Homepage - filter - not found gradebook', () => { 
+    it('GB-32 : Homepage - filter - not found gradebook', () => { 
         cy.route(Cypress.env('apiUrl') + 'diaries?page=1').as('diaries')
         cy.wait('@diaries')
         cy.get('.form-control').type(text)
@@ -46,7 +43,7 @@ describe('Home page module', () => {
     })
 
     //ovde ubaciti da kreira novi dnevnik za slucaj da neko obrise postojeci
-    it('GB-  : Homepage - filter - found gradebook - manual searching - scrolling down', () => { 
+    it('GB- 33 : Homepage - filter - found gradebook - manual searching - scrolling down', () => { 
         cy.route(Cypress.env('apiUrl') + 'diaries?page=1').as('diaries')
         cy.wait('@diaries')
 
@@ -57,7 +54,7 @@ describe('Home page module', () => {
     })
 
     //proba filtriranja sa page objest create gradebook
-    it('GB-  : Homepage - filter - found gradebook - filter searching', () => { 
+    it('GB- 34: Homepage - filter - found gradebook - filter searching', () => { 
         cy.get('#navbardrop').click()
         cy.wait(2000)
         cy.get('a').contains('Create Professor').click()
@@ -75,7 +72,7 @@ describe('Home page module', () => {
         cy.get('table > tbody > tr > td > a').should('contain', gradebookTitle)
     })
 
-    it('GB-  : New professor gets new gradebook', () => { 
+    it('GB- 35 : New professor gets new gradebook', () => { 
         cy.get('#navbardrop').click()
         cy.wait(2000)
         cy.get('a').contains('Create Professor').click()
@@ -101,7 +98,7 @@ describe('Home page module', () => {
     })
     
     //novi profesor uzima novi dnevnik i vise nije dostupan
-    it('GB-  : New professor gets new gradebook and professor is not available for getting another gradebook', () => { 
+    it('GB- 36 : New professor gets new gradebook and professor is not available for getting another gradebook', () => { 
         
         cy.get('#navbardrop').click()
         cy.wait(2000)
@@ -126,7 +123,7 @@ describe('Home page module', () => {
     })
 
 // ako se ne unese naslov dnevnika iskace poruka, prvo please fill out this field a posle i crvena poruka
-    it.only('GB-  : Create new gradebook - gradebook title required', () => { 
+    it('GB- 37: Create new gradebook - gradebook title required', () => { 
         cy.get('#navbardrop').click()
         cy.wait(2000)
         cy.get('a').contains('Create Professor').click()
@@ -150,7 +147,7 @@ describe('Home page module', () => {
 
 
 //single book grade page is visible
-    it('GB-  : Single gradebook page', () => { 
+    it.only('GB- 38 : Single gradebook page', () => { 
         cy.get('#navbardrop').click()
         cy.wait(2000)
         cy.get('a').contains('Create Professor').click()
@@ -172,7 +169,7 @@ describe('Home page module', () => {
 
 
     //dodati studente u ovaj test i prijaviti bug za stranicu single profesor page jer su izmesana polja
-    it('GB-  : Single professor page ', () => { 
+    it('GB- 39 : Single professor page ', () => { 
         
         cy.get('#navbardrop').click()
         cy.wait(2000)
@@ -190,17 +187,11 @@ describe('Home page module', () => {
         cy.get('table > tbody > tr > td').eq(1).should('contain', imeProf + ' ' + prezimeProf).click()
         cy.wait(1000)
         cy.get('h3').contains('Single Professor Page').should('be.visible')
-        cy.get('table').should('be.visible')  //bug reposrt
-
-        // cy.get('table > tbody > td').eq(0).should('contain',image1)
-        // cy.get('table > tbody > tr > td').eq(1).should('contain',imeProf + ' ' + prezimeProf)
-        // cy.get('table > tbody > tr > td').eq(2).should('contain',gradebookTitle)
-        // cy.get('table > tbody > tr > td').eq(3).should('contain', numberofstudents) dodati studente u ovaj test
-
+        cy.get('table').should('be.visible')  //bug report
     })
 
 
-    it('GB-  : Create professor add and delete images', () => { 
+    it('GB- 40 : Create professor add and delete images', () => { 
         
         cy.get('#navbardrop').click()
         cy.wait(2000)

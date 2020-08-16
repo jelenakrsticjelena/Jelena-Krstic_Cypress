@@ -39,7 +39,7 @@ describe('Edit gradebook module', () => {
   
    
 //single book grade page is visible and editable
-    it('GB-  : Edit gradebook page - student addition with added images and delete them', () => { 
+    it('GB-28: Edit gradebook page - student addition with added images and delete them', () => { 
         cy.get('#navbardrop').click()
         cy.wait(2000)
         cy.get('a').contains('Create Professor').click()
@@ -75,7 +75,7 @@ describe('Edit gradebook module', () => {
     })
 
 
-    it('GB-  : Edit gradebook page - change gradebook title', () => { 
+    it('GB-29: Edit gradebook page - change gradebook title', () => { 
         cy.get('#navbardrop').click()
         cy.wait(2000)
         cy.get('a').contains('Create Professor').click()
@@ -103,7 +103,7 @@ describe('Edit gradebook module', () => {
         
     })
 
-    it('GB-  : Edit gradebook page - add and delete comment', () => { 
+    it('GB-30: Edit gradebook page - add and delete comment', () => { 
         cy.get('#navbardrop').click()
         cy.wait(2000)
         cy.get('a').contains('Create Professor').click()
@@ -133,7 +133,7 @@ describe('Edit gradebook module', () => {
 
     })
 
-        it.only('GB-  : Edit gradebook page - delete gradebook', () => { 
+        it('GB-31: Edit gradebook page - delete gradebook', () => { 
             cy.get('#navbardrop').click()
             cy.wait(2000)
             cy.get('a').contains('Create Professor').click()
