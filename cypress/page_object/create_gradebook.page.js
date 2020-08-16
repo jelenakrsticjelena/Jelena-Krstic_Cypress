@@ -1,6 +1,3 @@
-
-//ZAVRSITI kako da odabraniProfesor bude == imeProf + ' ' +  prezimeProf
-
 export default class CreateGradebook {
     
     get gradebookTitle() {
