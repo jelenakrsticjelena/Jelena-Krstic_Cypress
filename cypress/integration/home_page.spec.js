@@ -13,6 +13,10 @@ let gradebookTitle = faker.random.words();
 let gradebookTitle2 = faker.random.words();
 let imeProf = faker.random.words();
 let prezimeProf = faker.random.words();
+let imeProf2 = faker.random.words();
+let prezimeProf2 = faker.random.words();
+let imeProf3 = faker.random.words();
+let prezimeProf3 = faker.random.words();
 let image1 = "https://www.newenglishreview.org/files/100/Image/Paperchase.jpg";
 let image2 = "https://img.freepik.com/free-photo/old-professor-showing-classroom_23-2148201060.jpg?size=626&ext=jpg"
 let image3 = "https://images.ctfassets.net/p0qf7j048i0q/3C15803B7BE94A5696501B2AE89C30CF/9168c33e6bacbcaafca0a3163a32fcd9/491706503.jpg"
@@ -147,15 +151,15 @@ describe('Home page module', () => {
 
 
 //single book grade page is visible
-    it.only('GB- 38 : Single gradebook page', () => { 
+    it('GB- 38 : Single gradebook page', () => { 
         cy.get('#navbardrop').click()
         cy.wait(2000)
         cy.get('a').contains('Create Professor').click()
-        createProfessor.kreirajProfesora(imeProf, prezimeProf, image1)
+        createProfessor.kreirajProfesora(imeProf2, prezimeProf2, image1)
         cy.wait(1000);
         cy.get('.nav-link').contains('Create Gradebook').click()
         cy.wait(1000);
-        createGradebook.kreirajDnevnik(gradebookTitle, imeProf + ' ' + prezimeProf)
+        createGradebook.kreirajDnevnik(gradebookTitle, imeProf2 + ' ' + prezimeProf2)
         cy.wait(1000);
         cy.get('.form-control').type(gradebookTitle)
         cy.wait(1000);
@@ -174,17 +178,17 @@ describe('Home page module', () => {
         cy.get('#navbardrop').click()
         cy.wait(2000)
         cy.get('a').contains('Create Professor').click()
-        createProfessor.kreirajProfesora(imeProf, prezimeProf, image1)
+        createProfessor.kreirajProfesora(imeProf3, prezimeProf3, image1)
         cy.wait(1000);
         cy.get('.nav-link').contains('Create Gradebook').click()
         cy.wait(1000);
-        createGradebook.kreirajDnevnik(gradebookTitle, imeProf + ' ' + prezimeProf)
+        createGradebook.kreirajDnevnik(gradebookTitle, imeProf3 + ' ' + prezimeProf3)
         cy.wait(1000);
         cy.get('.form-control').type(gradebookTitle)
         cy.wait(1000);
         cy.get('button').contains('Search').click()
         cy.wait(2000)
-        cy.get('table > tbody > tr > td').eq(1).should('contain', imeProf + ' ' + prezimeProf).click()
+        cy.get('table > tbody > tr > td').eq(1).should('contain', imeProf3 + ' ' + prezimeProf3).click()
         cy.wait(1000)
         cy.get('h3').contains('Single Professor Page').should('be.visible')
         cy.get('table').should('be.visible')  //bug report
@@ -210,6 +214,10 @@ describe('Home page module', () => {
         cy.wait(1000)
         cy.get('button').eq(7).contains('Submit').click()
         cy.wait(2000);
+        cy.get('#navbardrop').click()
+        cy.wait(1000)
+        cy.get('a').contains('All Professors').click()
+        cy.wait(2000)
         cy.get('[type=text]').type(firstName)
         cy.get('table > tbody > tr > td').should('contain', firstName)
     })
