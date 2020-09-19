@@ -18,7 +18,6 @@ describe('Layout page as a user - module', () => {
   
     beforeEach(() => {
       cy.visit('/')
-      //cy.get('.nav-link').contains('Register').click()
       cy.server()
     });
 
@@ -145,7 +144,6 @@ it('GB-24: Layout of Edit Gradebook Page', () => {
     cy.get('#navbardrop').click()
     cy.get('a').contains('All Professors').click()
     cy.wait(1000)
-    //cy.get('h3').contains('All Professors Page').should('be.visible')
     cy.wait(2000)
     cy.get('label').contains('Professors filter').should('be.visible')
     cy.get('.form-control').should('be.visible')

@@ -16,7 +16,6 @@ describe('Register module', () => {
   });
 
   beforeEach(() => {
-    //cy.visit('/register')
     cy.visit('/')
     cy.get('.nav-link').contains('Register').click()
     cy.server()

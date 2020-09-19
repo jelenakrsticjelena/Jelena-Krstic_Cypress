@@ -65,16 +65,3 @@ Cypress.Commands.add('loginBe', (mejl, pasvord) =>{
     }) 
   })
 
-
-//   Cypress.Commands.add('deleteBe', ()=>{
-//     cy.request({
-//       //     method: 'DELETE',
-//       //     url: Cypress.env('apiUrl')}/galleries/${useCaseID}',
-//       //     form: true,
-//       //     followRedirect: true,
-//       //     headers: {
-//         authorization: `Bearer ${window.loicalStorage.getItem('token')}`
-//       }
-//       )
-//   })
-  

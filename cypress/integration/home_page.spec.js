@@ -135,10 +135,8 @@ describe('Home page module', () => {
         cy.wait(1000);
         cy.get('.nav-link').contains('Create Gradebook').click()
         cy.wait(1000);
-    //napravljen prvi gradebook sa prof
         cy.get('.nav-link').contains('Create Gradebook').click()
         cy.wait(1000);
-    //cy.get('[type="text"]').type(gradebookTitle);
         cy.get('#professor').select(imeProf + ' ' +  prezimeProf)
         cy.wait(1000);
         cy.get('.btn').contains('Submit').click();
